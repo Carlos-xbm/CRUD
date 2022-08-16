@@ -1,38 +1,60 @@
-const animesService = require("../services/anime.service");
+const animesService = require('../services/anime.service');
 
-function buscarAllAnimesController(req, res) {
-    const todosAnimes = animesService.buscarAllAnimesService();
-    res.send(todosAnimes);
+async function buscarAllAnimesController(req, res) {
+  try {
+    const todosAnimes = await animesService.buscarAllAnimesService();
+    res.status(200).send(todosAnimes);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
 }
 
-function buscarAnimeByIdController(req, res) {
-    const idParam = req.params.id;
-    const unicoAnime = animesService.buscarAnimeByIdService(idParam);
-    res.send(unicoAnime);
+async function buscarAnimeByIdController(req, res) {
+  const idParam = req.params.id;
+  const unicoAnime = await animesService.buscarAnimeByIdService(idParam);
+  if (unicoAnime) {
+    res.status(200).send(unicoAnime);
+  } else {
+    res.status(400).send({ message: 'Não exite nenhum anime com esse id' });
+  }
 }
 
-function criarAnimeController(req, res) {
+async function criarAnimeController(req, res) {
+  try {
     const anime = req.body;
-    const animeCriado = animesService.criarAnimeService(anime);
-    res.send(animeCriado);
+    const animeCriado = await animesService.criarAnimeService(anime);
+    res.status(201).send(animeCriado);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).send({ message: err.message });
+  }
 }
 
-function atualizarAnimeController(req, res) {
+async function atualizarAnimeController(req, res) {
+  try {
     const anime = req.body;
-    const animeAtualizado = animesService.atualizarAnimeService(anime);
-    res.send(animeAtualizado);
+    const animeAtualizado = await animesService.atualizarAnimeService(anime);
+    res.status(200).send(animeAtualizado);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
 }
 
-function deletarAnimeController(req, res) {
-    const id = req.params.id;
-    const animeDeletado = animesService.deletarAnimeService(id);
-    res.send(animeDeletado);
+async function deletarAnimeController(req, res) {
+  const id = req.params.id;
+  const animeDeletado = await animesService.deletarAnimeService(id);
+  if (animeDeletado) {
+    res.status(200).send({ message: 'Anime deletado com sucesso' });
+  } else {
+    res.status(400).send({ message: 'Nenhum anime com esse id foi encontrado' });
+  }
 }
 
 module.exports = {
-    buscarAllAnimesController,
-    buscarAnimeByIdController,
-    criarAnimeController,
-    atualizarAnimeController,
-    deletarAnimeController,
+  buscarAllAnimesController,
+  buscarAnimeByIdController,
+  criarAnimeController,
+  atualizarAnimeController,
+  deletarAnimeController,
 };

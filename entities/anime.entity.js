@@ -28,7 +28,7 @@ class AnimeEntity {
             title: this.title,
             protagonist: this.protagonist,
             gender: this.gender,
-            age: this.year,
+            year: this.year,
         };
     }
 }

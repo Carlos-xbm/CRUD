@@ -3,7 +3,7 @@ const animes = require('../mocks/animes');
 const AnimeEntity = require('../entities/anime.entity');
 const CharacterEntity = require('../entities/character.entity');
 //
-async function buscarAllAnimesService(anime) {
+async function buscarAllAnimesService() {
   return await Anime.find();
 }
 //
@@ -44,32 +44,26 @@ async function atualizarAnimeService(anime) {
   atualizarAnime.validate();
 
   if (!anime.characters) {
-    throw new Error('Personagem precisa ser informado');
+    throw new Error('Personagens precisam ser informados');
   }
 
-  const charactersAtualizado = [];
+  const atualizarCharacters = [];
 
   anime.characters.map((character) => {
-    const characterAtualizado = new CharacterEntity(character);
-    characterAtualizado.validate();
-    charactersAtualizado.push(characterAtualizado.getCharacter());
+    const atualizarCharacter = new CharacterEntity(character);
+    atualizarCharacter.validate();
+    atualizarCharacters.push(atualizarCharacter.getCharacter());
   });
 
   const animeAtualizado = {
     ...atualizarAnime.getAnime(),
-    characters: charactersAtualizado,
+    characters: atualizarCharacters,
   };
 
-  const animeAtualizadoInDatabase = await Anime.findOneAndUpdate(
-    { id: anime.id },
-    animeAtualizado,
-    {
-      new: true,
-    },
-  );
-  return animeAtualizadoInDatabase;
-}
-//
+  const animeUpdatedInDatabase = await Anime.findOneAndUpdate(animeAtualizado);
+
+  return animeUpdatedInDatabase;
+} //
 async function deletarAnimeService(id) {
   let buscarAnime = await Anime.findOneAndDelete({ id: id });
   return buscarAnime;

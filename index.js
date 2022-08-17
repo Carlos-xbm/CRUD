@@ -1,9 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const port = process.env.PORT || 3000;
 const app = express();
-const router = require('./routes/animes.route');
-const { mongoDb } = require('./database/mongoDb/mongo');
+const router = require('./src/routes/animes.route');
+const { mongoDb } = require('./src/database/mongoDb/mongo');
+const swaggerRoute = require('./swagger/swagger.route');
 
 app.use(cors());
 app.use(express.json());
@@ -11,8 +14,8 @@ app.use(express.json());
 mongoDb();
 
 app.use('/animes', router);
+app.use('/api-docs', swaggerRoute);
 
-app.listen(3000, () => {
-  console.log('A aplicação esta rodando na porta 3000');
-  console.log('acesse em: http://localhost:3000');
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
 });

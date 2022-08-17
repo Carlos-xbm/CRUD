@@ -1,4 +1,4 @@
-const crypto = require("node:crypto");
+const crypto = require("crypto");
 
 class AnimeEntity {
     constructor(anime) {
@@ -16,7 +16,7 @@ class AnimeEntity {
             throw new Error("Protagonista precisa ser informado");
         }
         if (!this.gender) {
-            throw new Error("Genero precisa ser informado");
+            throw new Error("Gênero precisa ser informado");
         }
         if (!this.year || this.year < 1960) {
             throw new Error("Ano precisa ser informado");

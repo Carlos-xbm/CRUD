@@ -1,0 +1,185 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Api Animes",
+    "description": "API para CRUD de animes",
+    "termsOfService": "",
+    "contact": {
+      "email": "carloseduardoedu.carlos@hotmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/animes",
+      "descrption": "API de teste"
+    },
+    {
+      "url": "",
+      "descrption": "API de produção"
+    }
+  ],
+  "paths": {
+    "/todos-animes": {
+      "get": {
+        "summary": "Lista de todos os animes",
+        "description": "Rota responsável por mostrar todos animes",
+        "tags": ["Animes"],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schema/Animes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/buscar-anime/{id}": {
+      "get": {
+        "summary": "Lista de todos os animes",
+        "description": "Rota responsável por buscar animes por ID",
+        "tags": ["Animes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do anime para buscar",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schema/Animes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/criar": {
+      "post": {
+        "summary": "Criar anime",
+        "description": "Rota responsável por criar animes",
+        "tags": ["Animes"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schema/Animes"
+              },
+              "examples": {
+                "Animes": {
+                  "value": {
+                    "title": "Bob esponja",
+                    "protagonist": "Bob esponja",
+                    "gender": "Aventura",
+                    "year": 2005,
+                    "characters": [
+                      {
+                        "name": "Bob",
+                        "lastName": "Esponja",
+                        "gender": "Masculino",
+                        "age": "10",
+                        "nationality": "Oceano Atlântico"
+                      },
+                      {
+                        "name": "Patrik",
+                        "lastName": "Estrela",
+                        "gender": "Masculino",
+                        "age": "08",
+                        "nationality": "Oceano Atlântico"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schema/Animes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/atualizar":{}
+  },
+
+  "components": {
+    "schema": {
+      "Animes": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "protagonist": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          },
+          "characters": 
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "gender": {
+                "type": "string"
+              },
+              "age": {
+                "type": "string"
+              },
+              "nationality": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
